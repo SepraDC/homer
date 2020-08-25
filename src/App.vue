@@ -51,6 +51,7 @@
           class="navbar-item is-inline-block-mobile"
           :hotkey="searchHotkey()"
           @input="filterServices($event.target?.value)"
+          @search:text="searchValue"
           @search-focus="showMenu = true"
           @search-open="navigateToFirstService($event?.target?.value)"
           @search-cancel="filterServices()"
@@ -70,6 +71,16 @@
         <div v-if="!offline">
           <!-- Optional messages -->
           <Message :item="config.message" />
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w fas fa-ship"></i>
+            Pont Chaban Delmas
+          </h2>
+          <PontChaban />
+
+          <MinecraftServer
+            v-if="config.hostname && config.hostname !== ''"
+            :hostname="config.hostname"
+          />
 
           <!-- Horizontal layout -->
           <div v-if="!vlayout || filter" class="columns is-multiline">
@@ -143,6 +154,9 @@
 <script>
 import { parse } from "yaml";
 import merge from "lodash.merge";
+import MinecraftServer from "@/components/MinecraftServer";
+const jsyaml = require("js-yaml");
+const merge = require("lodash.merge");
 
 import Navbar from "./components/Navbar.vue";
 import GetStarted from "./components/GetStarted.vue";
@@ -153,12 +167,15 @@ import SearchInput from "./components/SearchInput.vue";
 import SettingToggle from "./components/SettingToggle.vue";
 import DarkMode from "./components/DarkMode.vue";
 import DynamicTheme from "./components/DynamicTheme.vue";
+import PontChaban from "./components/PontChaban";
 
 import defaultConfig from "./assets/defaults.yml?raw";
 
 export default {
   name: "App",
   components: {
+    MinecraftServer,
+    PontChaban,
     Navbar,
     GetStarted,
     ConnectivityChecker,

@@ -6,11 +6,15 @@
         {{ message.title }}
       </p>
     </div>
-    <div
-      v-if="message.content"
-      class="message-body"
-      v-html="message.content"
-    ></div>
+    <div class="message-body">
+      <div v-if="message.content" v-html="message.content"></div>
+      <span
+        v-if="message.author"
+        class="is-italic is-inline-block has-text-right"
+        style="width: 100%;"
+        v-html="message.author"
+      ></span>
+    </div>
   </article>
 </template>
 
