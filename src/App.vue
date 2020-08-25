@@ -38,15 +38,16 @@
         />
 
         <SearchInput
-          class="navbar-item is-inline-block-mobile"
+          class="navbar-item is-inline-block-mo bile"
           @input="filterServices"
+          @search:text="searchValue"
           @search:focus="showMenu = true"
           @search:open="navigateToFirstService"
           @search:cancel="filterServices"
         />
       </Navbar>
     </div>
-
+    <div class="container"></div>
     <section id="main-section" class="section">
       <div v-cloak class="container">
         <ConnectivityChecker
@@ -56,6 +57,16 @@
         <div v-if="!offline">
           <!-- Optional messages -->
           <Message :item="config.message" />
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w fas fa-ship"></i>
+            Pont Chaban Delmas
+          </h2>
+          <PontChaban />
+
+          <MinecraftServer
+            v-if="config.hostname && config.hostname !== ''"
+            :hostname="config.hostname"
+          />
 
           <!-- Horizontal layout -->
           <div v-if="!vlayout || filter" class="columns is-multiline">
@@ -72,7 +83,6 @@
               />
             </template>
           </div>
-
           <!-- Vertical layout -->
           <div
             v-if="!filter && vlayout"
@@ -111,6 +121,7 @@
 </template>
 
 <script>
+import MinecraftServer from "@/components/MinecraftServer";
 const jsyaml = require("js-yaml");
 const merge = require("lodash.merge");
 
@@ -122,12 +133,15 @@ import SearchInput from "./components/SearchInput.vue";
 import SettingToggle from "./components/SettingToggle.vue";
 import DarkMode from "./components/DarkMode.vue";
 import DynamicTheme from "./components/DynamicTheme.vue";
+import PontChaban from "./components/PontChaban";
 
 import defaultConfig from "./assets/defaults.yml";
 
 export default {
   name: "App",
   components: {
+    MinecraftServer,
+    PontChaban,
     Navbar,
     ConnectivityChecker,
     Service,
@@ -146,6 +160,8 @@ export default {
       vlayout: true,
       isDark: null,
       showMenu: false,
+      info: null,
+      search: "",
     };
   },
   created: async function () {
@@ -196,13 +212,21 @@ export default {
     navigateToFirstService: function (target) {
       try {
         const service = this.services[0].items[0];
-        window.open(service.url, target || service.target || "_self");
+        if (service === undefined) {
+          window.open(
+            "https://www.google.com/search?q=" + this.search,
+            "_blank"
+          );
+        } else {
+          window.open(service.url, target || service.target || "_self");
+        }
       } catch (error) {
         console.warning("fail to open service");
       }
     },
     filterServices: function (filter) {
       this.filter = filter;
+      this.search = filter;
 
       if (!filter) {
         this.services = this.config.services;

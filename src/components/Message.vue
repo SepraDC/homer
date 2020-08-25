@@ -3,11 +3,15 @@
     <div v-if="message.title" class="message-header">
       <p>{{ message.title }}</p>
     </div>
-    <div
-      v-if="message.content"
-      class="message-body"
-      v-html="message.content"
-    ></div>
+    <div class="message-body">
+      <div v-if="message.content" v-html="message.content"></div>
+      <span
+        v-if="message.author"
+        class="is-italic is-inline-block has-text-right"
+        style="width: 100%;"
+        v-html="message.author"
+      ></span>
+    </div>
   </article>
 </template>
 
@@ -34,10 +38,24 @@ export default {
           this.message[prop] = fetchedMessage[prop];
         }
       }
+    } else {
+      const fetchedQuotes = await this.getQuotes();
+      this.message.title = "💬 Citation du jour";
+      this.message.content = fetchedQuotes.contents.quotes[0].quote;
+      this.message.author = fetchedQuotes.contents.quotes[0].author;
     }
+
     this.show = this.message.title || this.message.content;
   },
   methods: {
+    getQuotes: function () {
+      return fetch("https://quotes.rest/qod").then(function (response) {
+        if (response.status != 200) {
+          return;
+        }
+        return response.json();
+      });
+    },
     getMessage: function (url) {
       return fetch(url).then(function (response) {
         if (response.status != 200) {

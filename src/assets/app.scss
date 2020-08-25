@@ -51,6 +51,10 @@ body {
       }
     }
 
+    .message-header {
+      background-color: var(--highlight-primary);
+    }
+
     .message {
       background-color: var(--card-background);
       .message-body {
@@ -203,7 +207,7 @@ body {
 
   .tag {
     color: var(--highlight-secondary);
-    background-color: var(--highlight-secondary);
+    background-color: var(--highlight-hover);
     position: absolute;
     top: 1rem;
     right: -0.2rem;
@@ -336,5 +340,10 @@ body {
       cursor: pointer;
       color: #3273dc;
     }
+  }
+
+  .flex-div{
+    display: flex;
+    flex-wrap: wrap;
   }
 }
