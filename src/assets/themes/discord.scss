@@ -1,0 +1,65 @@
+/*
+ * Discord theme
+ * Author: @sepradc
+ */
+body #app.theme-discord {
+
+  .message-header{
+    background-color: var(--highlight-primary);
+  }
+
+  .tag{
+    background-color: var(--highlight-hover);
+  }
+
+  .flex-div{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .dropdown {
+    display: inherit;
+    position: inherit;
+
+    .dropdown-content {
+      background-color: var(--highlight-hover);
+    }
+
+    .dropdown-item{
+      color: white;
+    }
+  }
+
+  .table{
+    tr:not(.is-selected):nth-child(2n){
+      background-color: var(--highlight-primary)
+    }
+
+    tr:hover:not(.is-selected):nth-child(2n){
+      background-color: var(--highlight-hover);
+    }
+    .tr-body:hover{
+      background-color: var(--highlight-hover);
+    }
+    thead{
+      background-color: var(--highlight-secondary);
+    }
+    tbody {
+      background-color: var(--card-background);
+      border-radius: 0 0 4px 4px;
+    }
+    th{
+      color: var(--text-header);
+      border-color: var(--highlight-primary);
+    }
+    tr{
+      color: var(--text);
+      border-color: var(--highlight-primary);
+    }
+    td{
+      border-color: var(--highlight-primary);
+    }
+  }
+  strong{
+    color: var(--text-title);
+  }
+}
