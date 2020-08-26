@@ -6,6 +6,7 @@
 
 // Themes import
 @import "./themes/sui.scss";
+@import "themes/discord.scss";
 
 @mixin ellipsis() {
   white-space: nowrap;
@@ -49,10 +50,6 @@ body {
       &:hover {
         background-color: var(--card-background);
       }
-    }
-
-    .message-header {
-      background-color: var(--highlight-primary);
     }
 
     .message {
@@ -187,7 +184,6 @@ body {
     }
 
     .message {
-      margin-top: 45px;
       box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
 
       .message-header {
@@ -207,7 +203,7 @@ body {
 
   .tag {
     color: var(--highlight-secondary);
-    background-color: var(--highlight-hover);
+    background-color: var(--highlight-secondary);
     position: absolute;
     top: 1rem;
     right: -0.2rem;
@@ -340,10 +336,5 @@ body {
       cursor: pointer;
       color: #3273dc;
     }
-  }
-
-  .flex-div{
-    display: flex;
-    flex-wrap: wrap;
   }
 }

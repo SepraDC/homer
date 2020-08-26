@@ -57,16 +57,13 @@
         <div v-if="!offline">
           <!-- Optional messages -->
           <Message :item="config.message" />
-          <h2 class="is-fullwidth group-title">
-            <i class="fa-w fas fa-ship"></i>
-            Pont Chaban Delmas
-          </h2>
-          <PontChaban />
-
-          <MinecraftServer
-            v-if="config.hostname && config.hostname !== ''"
-            :hostname="config.hostname"
-          />
+          <div v-if="config.pontChaban">
+            <h2 class="is-fullwidth group-title">
+              <i class="fa-w fas fa-ship"></i>
+              Pont Chaban Delmas
+            </h2>
+            <PontChaban />
+          </div>
 
           <!-- Horizontal layout -->
           <div v-if="!vlayout || filter" class="columns is-multiline">
@@ -104,6 +101,9 @@
               />
             </div>
           </div>
+          <h1 v-if="filter && this.services[0].items[0] === undefined">
+            Rechercher sur internet...
+          </h1>
         </div>
       </div>
     </section>
@@ -121,7 +121,6 @@
 </template>
 
 <script>
-import MinecraftServer from "@/components/MinecraftServer";
 const jsyaml = require("js-yaml");
 const merge = require("lodash.merge");
 
@@ -140,7 +139,6 @@ import defaultConfig from "./assets/defaults.yml";
 export default {
   name: "App",
   components: {
-    MinecraftServer,
     PontChaban,
     Navbar,
     ConnectivityChecker,

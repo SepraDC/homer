@@ -38,7 +38,7 @@ export default {
           this.message[prop] = fetchedMessage[prop];
         }
       }
-    } else {
+    } else if (!this.item) {
       const fetchedQuotes = await this.getQuotes();
       this.message.title = "💬 Citation du jour";
       this.message.content = fetchedQuotes.contents.quotes[0].quote;

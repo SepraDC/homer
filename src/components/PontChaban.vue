@@ -1,39 +1,36 @@
 <template>
-  <div class="flex-div">
-    <div v-for="record in nextRecords" class="px-2">
-      <article class="message">
-        <div class="message-header">
-          <i
-            v-if="record.fields.bateau === 'MAINTENANCE'"
-            class="fa-fw fas fa-wrench"
-          ></i>
-          <i v-else class="fa-fw fas fa-ship"></i>
-          <p>{{ record.fields.bateau }}</p>
-        </div>
-        <div class="message-body">
-          <div class="columns">
-            <div class="column">Passage</div>
-            <div class="column">
-              <strong>{{
-                moment(record.fields.date_passage).format("DD/MM/YYYY")
-              }}</strong>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column">Fermeture</div>
-            <div class="column">
-              <strong>{{ record.fields.fermeture_a_la_circulation }}</strong>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column">Réouverture</div>
-            <div class="column">
-              <strong>{{ record.fields.re_ouverture_a_la_circulation }}</strong>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
+  <div class="table-container">
+    <table class="table is-fullwidth is-striped is-hoverable">
+      <thead>
+        <tr>
+          <th>Bateau</th>
+          <th>Date Passage</th>
+          <th>Fermeture</th>
+          <th>Réouverture</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="tr-body" v-for="record in nextRecords">
+          <td>
+            <p>
+              <i
+                v-if="record.fields.bateau === 'MAINTENANCE'"
+                class="fa-fw fas fa-wrench"
+              ></i>
+              <i v-else class="fa-fw fas fa-ship"></i>
+              {{ record.fields.bateau }}
+            </p>
+          </td>
+          <td>
+            <strong>{{
+              moment(record.fields.date_passage).format("DD/MM/YYYY")
+            }}</strong>
+          </td>
+          <td>{{ record.fields.fermeture_a_la_circulation }}</td>
+          <td>{{ record.fields.re_ouverture_a_la_circulation }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>

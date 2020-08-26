@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!item.hostname">
     <div class="card">
       <a :href="item.url" :target="item.target" rel="noreferrer">
         <div class="card-content">
@@ -26,11 +26,17 @@
       </a>
     </div>
   </div>
+  <div v-else>
+    <MinecraftServer v-bind:item="item"
+    />
+  </div>
 </template>
 
 <script>
+import MinecraftServer from "@/components/MinecraftServer";
 export default {
   name: "Service",
+  components: { MinecraftServer },
   props: {
     item: Object,
   },
