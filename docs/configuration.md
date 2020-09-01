@@ -97,6 +97,10 @@ message:
   icon: "fa fa-exclamation-triangle"
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
+#optionnal tools
+pontChaban: true
+row: 5
+
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
@@ -124,6 +128,9 @@ services:
     items:
       - name: "Awesome app"
         logo: "assets/tools/sample.png"
+        # Props to select the type of the service
+        # Currently ( Link, MinecraftServer )
+        type: "Link"
         # Alternatively a fa icon can be provided:
         # icon: "fab fa-jenkins"
         subtitle: "Bookmark example"

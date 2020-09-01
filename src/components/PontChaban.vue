@@ -1,5 +1,5 @@
 <template>
-  <div class="table-container">
+  <div v-if="this.nextRecords.length > 0" class="table-container">
     <table class="table is-fullwidth is-striped is-hoverable">
       <thead>
         <tr>
@@ -32,16 +32,17 @@
       </tbody>
     </table>
   </div>
+  <div v-else><h1>Pas de nouvelles fermetures</h1></div>
 </template>
 <script>
 import moment from "moment";
-const today = new Date();
-const currentDate =
-  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-const date = today.getFullYear() + "-" + (today.getMonth() + 1); // + "-" + today.getDate();
-
+export const today = new Date();
+const filterDate = today.getFullYear() + "-" + (today.getMonth() + 1);
 export default {
   name: "PontChaban",
+  props: {
+    row: null,
+  },
   data() {
     return {
       nextRecords: [],
@@ -59,9 +60,12 @@ export default {
   },
   created: async function () {
     const fetchedPassages = await this.getPassage();
-    for (let record of fetchedPassages.records) {
-      if (this.validDate(record.fields.date_passage)) {
-        this.nextRecords.push(record);
+    if (this.row === undefined) {
+      this.row = 5;
+    }
+    for (let i = 0; i < this.row; i++) {
+      if (this.validDate(fetchedPassages.records[i].fields.date_passage)) {
+        this.nextRecords.push(fetchedPassages.records[i]);
       }
     }
   },
@@ -69,7 +73,7 @@ export default {
     getPassage: function () {
       return fetch(
         "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=20&sort=-date_passage&facet=bateau&refine.date_passage=" +
-          date
+          filterDate
       ).then(function (response) {
         if (response.status !== 200) {
           return;
@@ -79,7 +83,9 @@ export default {
     },
     moment,
     validDate: function (date_passage) {
-      return !moment(date_passage).isBefore(currentDate);
+      let date = new Date(date_passage);
+      let today = new Date();
+      return date.getTime() > today.getTime();
     },
   },
 };

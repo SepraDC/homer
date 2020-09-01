@@ -6,8 +6,12 @@
           <div class="media">
             <div class="media-left has-text-centered">
               <figure class="image is-32x32 mx-2">
-                <img v-if="server.online" src="assets/tools/checked.svg" alt="none"/>
-                <img v-else src="assets/tools/cancel.svg"  alt="none"/>
+                <img
+                  v-if="server.online"
+                  src="assets/tools/checked.svg"
+                  alt="none"
+                />
+                <img v-else src="assets/tools/cancel.svg" alt="none" />
               </figure>
               <span v-if="server.online" class="has-text-success is-6"
                 >Online</span
@@ -31,12 +35,21 @@
                 >
               </div>
             </div>
-            <div v-if="server.players.online > 0" class="dropdown-menu" id="dropdown-menu4" role="menu">
+            <div
+              v-if="server.players.online > 0"
+              class="dropdown-menu"
+              id="dropdown-menu4"
+              role="menu"
+            >
               <div class="dropdown-content">
                 <div class="dropdown-item">
-                  <p v-for="player in server.players.list">
-                    {{ player }}
-                  </p>
+                  <div v-for="player in server.players.list">
+                    <p>
+                      <img :src="player.avatar" alt="" />
+
+                      {{ player }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -49,7 +62,7 @@
 
 <script>
 export default {
-  name: "MinecraftServer",
+  name: "MinecraftServerService",
   props: {
     item: Object,
   },
@@ -72,20 +85,33 @@ export default {
   },
   created: async function () {
     this.server = await this.getServer();
+    for (let player in this.server.players.list) {
+      console.log(player);
+      let bla = await this.getPlayer(this.server.players.list[player]);
+      console.log(bla);
+    }
   },
   methods: {
     getServer: function () {
       return fetch("https://api.mcsrvstat.us/2/" + this.item.hostname).then(
         function (response) {
-          if (response.status != 200) {
-            return;
+          if (response.ok) {
+            return response.json();
           }
-          return response.json();
         }
       );
+    },
+    getPlayer: function (name) {
+      return fetch("http://localhost:8000/player/" + name).then(function (
+        response
+      ) {
+        if (response.ok) {
+          return response.json();
+        }
+      });
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
