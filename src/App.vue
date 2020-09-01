@@ -38,9 +38,9 @@
         />
 
         <SearchInput
-          class="navbar-item is-inline-block-mo bile"
+          class="navbar-item is-inline-block-mobile"
           @input="filterServices"
-          @search:text="searchValue"
+          @search:text="search"
           @search:focus="showMenu = true"
           @search:open="navigateToFirstService"
           @search:cancel="filterServices"
@@ -62,7 +62,7 @@
               <i class="fa-w fas fa-ship"></i>
               Pont Chaban Delmas
             </h2>
-            <PontChaban />
+            <PontChaban :row="config.row" />
           </div>
 
           <!-- Horizontal layout -->
@@ -94,7 +94,7 @@
                 <i v-if="group.icon" :class="['fa-fw', group.icon]"></i>
                 {{ group.name }}
               </h2>
-              <Service
+              <Services
                 v-for="item in group.items"
                 v-bind:item="item"
                 :key="item.url"
@@ -126,7 +126,7 @@ const merge = require("lodash.merge");
 
 import Navbar from "./components/Navbar.vue";
 import ConnectivityChecker from "./components/ConnectivityChecker.vue";
-import Service from "./components/Service.vue";
+import Services from "./components/Services.vue";
 import Message from "./components/Message.vue";
 import SearchInput from "./components/SearchInput.vue";
 import SettingToggle from "./components/SettingToggle.vue";
@@ -142,7 +142,7 @@ export default {
     PontChaban,
     Navbar,
     ConnectivityChecker,
-    Service,
+    Services,
     Message,
     SearchInput,
     SettingToggle,

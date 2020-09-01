@@ -7,7 +7,7 @@ Title, icons, links, colors, and services can be configured in the `config.yml` 
 # Homepage configuration
 # See https://fontawesome.com/icons for icons options
 
-# Optional: Use external configuration file. 
+# Optional: Use external configuration file.
 # Using this will ignore remaining config in this file
 # externalConfig: https://example.com/server-luci/config.yaml
 
@@ -64,6 +64,10 @@ message:
   title: "Optional message!"
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
+#optionnal tools
+pontChaban: true
+row: 5
+
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
@@ -84,6 +88,9 @@ services:
     items:
       - name: "Awesome app"
         logo: "assets/tools/sample.png"
+        # Props to select the type of the service
+        # Currently ( Link, MinecraftServer )
+        type: "Link"
         # Alternatively a fa icon can be provided:
         # icon: "fab fa-jenkins"
         subtitle: "Bookmark example"
@@ -106,6 +113,10 @@ services:
         tag: "other"
         url: "https://www.reddit.com/r/selfhosted/"
         target: "_blank" # optionnal html a tag target attribute
+  # For minceraftServer service
+  - name: MinecraftServer
+    hostname: "yourServerHostname"
+    url: "just a url"
 ```
 
 If you choose to fetch message information from an endpoint, the output format should be:
