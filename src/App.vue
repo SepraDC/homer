@@ -72,7 +72,7 @@
                 <i v-if="group.icon" :class="['fa-fw', group.icon]"></i>
                 {{ group.name }}
               </h2>
-              <Service
+              <Services
                 v-for="item in group.items"
                 :key="item.name"
                 v-bind:item="item"
