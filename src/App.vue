@@ -95,7 +95,7 @@
                 </div>
                 {{ group.name }}
               </h2>
-              <Service
+              <Services
                 v-for="(item, index) in group.items"
                 :key="`service-${groupIndex}-${index}`"
                 :item="item"

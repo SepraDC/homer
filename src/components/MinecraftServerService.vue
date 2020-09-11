@@ -19,8 +19,7 @@
               <span v-else class="has-text-danger is-6">Offline</span>
             </div>
             <div class="media-content">
-              <p class="title is-4" v-html="this.server.motd.html[0]"></p>
-              <p class="subtitle is-6" v-html="this.server.motd.html[1]"></p>
+              <p class="title is-4" v-html="this.server.description"></p>
             </div>
           </div>
           <div class="dropdown is-hoverable">
@@ -43,11 +42,15 @@
             >
               <div class="dropdown-content">
                 <div class="dropdown-item">
-                  <div v-for="player in server.players.list">
+                  <div v-for="player in server.players.sample">
                     <p>
-                      <img :src="player.avatar" alt="" />
+                      <img
+                        width="16"
+                        :src="'https://crafatar.com/avatars/' + player.id"
+                        alt=""
+                      />
 
-                      {{ player }}
+                      {{ player.name }}
                     </p>
                   </div>
                 </div>
@@ -69,46 +72,41 @@ export default {
   data() {
     return {
       server: {
-        ip: null,
+        hostname: null,
         port: null,
-        motd: {
-          html: {},
-        },
+        description: null,
         players: {
           online: 0,
           max: 10,
-          list: {},
+          sample: {
+            id: null,
+            name: null,
+          },
         },
-        online: false,
       },
     };
   },
   created: async function () {
     this.server = await this.getServer();
-    for (let player in this.server.players.list) {
-      console.log(player);
-      let bla = await this.getPlayer(this.server.players.list[player]);
-      console.log(bla);
-    }
   },
   methods: {
     getServer: function () {
-      return fetch("https://api.mcsrvstat.us/2/" + this.item.hostname).then(
+      return fetch(
+        "https://sepradc-serv.ovh/api/server/" + this.item.hostname
+      ).then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+      });
+    },
+    getPlayer: function (name) {
+      return fetch("https://sepradc-serv.ovh/api/player/" + name).then(
         function (response) {
           if (response.ok) {
             return response.json();
           }
         }
       );
-    },
-    getPlayer: function (name) {
-      return fetch("http://localhost:8000/player/" + name).then(function (
-        response
-      ) {
-        if (response.ok) {
-          return response.json();
-        }
-      });
     },
   },
 };
