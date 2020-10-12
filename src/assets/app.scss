@@ -337,4 +337,45 @@ body {
       color: #3273dc;
     }
   }
+
+  .course {
+    height: 80px;
+    position: relative;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px white solid;
+
+    .tag {
+      top: 0;
+      width: auto;
+      color: #ffffff;
+      padding: 0 0.75em;
+
+      .tag-text {
+        display: block;
+      }
+    }
+  }
+
+  .repas{
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .changeWeek {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0 5px 0 5px;
+
+    i {
+      font-size: 3em;
+    }
+  }
+
+  .changeWeek:hover {
+    background-color: rgb(255, 255, 255, 0.5);
+  }
 }

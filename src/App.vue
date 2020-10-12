@@ -47,7 +47,6 @@
         />
       </Navbar>
     </div>
-    <div class="container"></div>
     <section id="main-section" class="section">
       <div v-cloak class="container">
         <ConnectivityChecker
@@ -57,13 +56,6 @@
         <div v-if="!offline">
           <!-- Optional messages -->
           <Message :item="config.message" />
-          <div v-if="config.pontChaban">
-            <h2 class="is-fullwidth group-title">
-              <i class="fa-w fas fa-ship"></i>
-              Pont Chaban Delmas
-            </h2>
-            <PontChaban :row="config.row" />
-          </div>
 
           <!-- Horizontal layout -->
           <div v-if="!vlayout || filter" class="columns is-multiline">
@@ -105,6 +97,22 @@
             Rechercher sur internet...
           </h1>
         </div>
+
+        <div id="edt" v-if="config.edt">
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w far fa-calendar-alt"></i>
+            Emploi du temps
+          </h2>
+          <Agenda :name="config.edt.name" />
+        </div>
+
+        <div id="pontChaban" v-if="config.pontChaban">
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w fas fa-ship"></i>
+            Pont Chaban Delmas
+          </h2>
+          <PontChaban :row="config.row" />
+        </div>
       </div>
     </section>
 
@@ -121,12 +129,13 @@
 </template>
 
 <script>
+import Agenda from "@/components/Agenda/Agenda";
 const jsyaml = require("js-yaml");
 const merge = require("lodash.merge");
 
 import Navbar from "./components/Navbar.vue";
 import ConnectivityChecker from "./components/ConnectivityChecker.vue";
-import Services from "./components/Services.vue";
+import Services from "./components/Services/Services.vue";
 import Message from "./components/Message.vue";
 import SearchInput from "./components/SearchInput.vue";
 import SettingToggle from "./components/SettingToggle.vue";
@@ -139,6 +148,7 @@ import defaultConfig from "./assets/defaults.yml";
 export default {
   name: "App",
   components: {
+    Agenda,
     PontChaban,
     Navbar,
     ConnectivityChecker,
