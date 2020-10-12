@@ -98,6 +98,7 @@ message:
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 #optionnal tools
+edt: "firstname.lastname"
 pontChaban: true
 row: 5
 
