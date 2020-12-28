@@ -14,7 +14,7 @@
         <div v-cloak class="container">
           <div class="logo">
             <img v-if="config.logo" :src="config.logo" alt="dashboard logo" />
-            <i v-if="config.icon" :class="['fa-fw', config.icon]"></i>
+            <i v-if="config.icon" :class="config.icon"></i>
           </div>
           <div class="dashboard-title">
             <span class="headline">{{ config.subtitle }}</span>
@@ -26,7 +26,7 @@
       <Navbar
         :open="showMenu"
         :links="config.links"
-        @navbar:toggle="showMenu = !showMenu"
+        @navbar-toggle="showMenu = !showMenu"
       >
         <DarkMode @updated="isDark = $event" />
 
@@ -41,9 +41,9 @@
           class="navbar-item is-inline-block-mobile"
           @input="filterServices"
           @search:text="search"
-          @search:focus="showMenu = true"
-          @search:open="navigateToFirstService"
-          @search:cancel="filterServices"
+          @search-focus="showMenu = true"
+          @search-open="navigateToFirstService"
+          @search-cancel="filterServices"
         />
       </Navbar>
     </div>
@@ -51,7 +51,7 @@
       <div v-cloak class="container">
         <ConnectivityChecker
           v-if="config.connectivityCheck"
-          @network:status-update="offline = $event"
+          @network-status-update="offline = $event"
         />
         <div v-if="!offline">
           <!-- Optional messages -->
@@ -183,7 +183,16 @@ export default {
     }
     this.config = merge(defaults, config);
     this.services = this.config.services;
-    document.title = `${this.config.title} | ${this.config.subtitle}`;
+    document.title =
+      this.config.documentTitle ||
+      `${this.config.title} | ${this.config.subtitle}`;
+    if (this.config.stylesheet) {
+      let stylesheet = "";
+      for (const file of this.config.stylesheet) {
+        stylesheet += `@import "${file}";`;
+      }
+      this.createStylesheet(stylesheet);
+    }
   },
   methods: {
     getConfig: function (path = "assets/config.yml") {
@@ -214,6 +223,7 @@ export default {
     matchesFilter: function (item) {
       return (
         item.name.toLowerCase().includes(this.filter) ||
+        (item.subtitle && item.subtitle.toLowerCase().includes(this.filter)) ||
         (item.tag && item.tag.toLowerCase().includes(this.filter))
       );
     },
@@ -266,6 +276,11 @@ export default {
           content: content,
         },
       };
+    },
+    createStylesheet: function (css) {
+      let style = document.createElement("style");
+      style.appendChild(document.createTextNode(css));
+      document.head.appendChild(style);
     },
   },
 };

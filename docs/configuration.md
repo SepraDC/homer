@@ -7,13 +7,14 @@ Title, icons, links, colors, and services can be configured in the `config.yml` 
 # Homepage configuration
 # See https://fontawesome.com/icons for icons options
 
-# Optional: Use external configuration file.
+# Optional: Use external configuration file. 
 # Using this will ignore remaining config in this file
 # externalConfig: https://example.com/server-luci/config.yaml
 
 title: "App dashboard"
 subtitle: "Homer"
-logo: "assets/homer.png"
+# documentTitle: "Welcome" # Customize the browser tab text
+logo: "assets/logo.png"
 # Alternatively a fa icon can be provided:
 # icon: "fas fa-skull-crossbones"
 
@@ -24,9 +25,14 @@ columns: "3" # "auto" or number (must be a factor of 12: 1, 2, 3, 4, 6, 12)
 connectivityCheck: true # whether you want to display a message when the apps are not accessible anymore (VPN disconnected for example)
 
 # Optional theming
-theme: default # 'default' or one of the theme available in 'src/assets/themes'.
+theme: default # 'default' or one of the themes available in 'src/assets/themes'.
 
-# Here is the exaustive list of customization parameters
+# Optional custom stylesheet
+# Will load custom CSS files. Especially useful for custom icon sets.
+# stylesheet:
+#   - "assets/custom.css"
+
+# Here is the exhaustive list of customization parameters
 # However all value are optional and will fallback to default if not set.
 # if you want to change only some of the colors, feel free to remove all unused key.
 colors:
@@ -62,6 +68,7 @@ message:
   # url: "https://<my-api-endpoint>" # Can fetch information from an endpoint to override value below.
   style: "is-warning"
   title: "Optional message!"
+  icon: "fa fa-exclamation-triangle"
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 #optionnal tools
@@ -81,11 +88,11 @@ links:
     url: "https://github.com/bastienwirtz/homer"
 
 # Services
-# First level array represent a group.
+# First level array represents a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
   - name: "Application"
-    icon: "fa fa-code-fork"
+    icon: "fas fa-code-branch"
     items:
       - name: "Awesome app"
         logo: "assets/tools/sample.png"
@@ -108,10 +115,15 @@ services:
   - name: "Other group"
     icon: "fas fa-heartbeat"
     items:
-      - name: "Another app"
+      - name: "Pi-hole"
         logo: "assets/tools/sample.png"
-        subtitle: "Another example"
+        # subtitle: "Network-wide Ad Blocking" # optional, if no subtitle is defined, PiHole statistics will be shown
         tag: "other"
+        url: "http://192.168.0.151/admin"
+        type: "PiHole" # optional, loads a specific component that provides extra features. MUST MATCH a file name (without file extension) available in `src/components/services`
+        target: "_blank" # optional html a tag target attribute
+        # class: "green" # optional custom CSS class for card, useful with custom stylesheet
+        # background: red # optional color for card to set color directly without custom stylesheet
         url: "https://www.reddit.com/r/selfhosted/"
         target: "_blank" # optionnal html a tag target attribute
   # For minceraftServer service

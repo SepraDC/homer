@@ -14,17 +14,17 @@
   text-overflow: ellipsis;
 }
 
-html {
+html, body, body #app {
   height: 100%;
+  background-color: var(--background);
 }
 
 body {
   font-family: "Raleway", sans-serif;
-  height: 100%;
 
   #app {
+    height: auto;
     min-height: 100%;
-    background-color: var(--background);
     background-image: var(--background-image);
     background-size: cover;
     background-position: center;
@@ -171,6 +171,7 @@ body {
 
     .title {
       font-size: 1.1em;
+      line-height: 1.2em;
       @include ellipsis();
     }
 
@@ -222,6 +223,7 @@ body {
     border: none;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
     transition: cubic-bezier(0.165, 0.84, 0.44, 1) 300ms;
+    overflow: visible;
 
     a {
       outline: none;

@@ -1,17 +1,15 @@
 <template>
   <DynamicStyle>
-    /* light / dark theme switch based on system pref if available */ body #app
-    {
+    :root, body #app.is-light {
     {{ getVars(themes.light) }}
     } @media (prefers-color-scheme: light), (prefers-color-scheme:
-    no-preference) { body #app {
+    no-preference) { :root, body #app {
     {{ getVars(themes.light) }}
-    } } @media (prefers-color-scheme: dark) { body #app { } } /* light / dark
-    theme override base on user choice. */ body #app.is-dark {
+    } } body #app.is-dark {
     {{ getVars(themes.dark) }}
-    } body #app.is-light {
-    {{ getVars(themes.light) }}
-    }
+    } @media (prefers-color-scheme: dark) { :root, body #app {
+    {{ getVars(themes.dark) }}
+    } }
   </DynamicStyle>
 </template>
 
@@ -27,7 +25,7 @@ export default {
       for (const themeVars in theme) {
         let value = `${theme[themeVars]}`;
         if (!value) {
-          value = "inital";
+          value = "initial";
         } else if (themeVars == "background-image") {
           value = `url(${theme[themeVars]})`;
         }

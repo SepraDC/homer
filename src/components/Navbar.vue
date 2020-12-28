@@ -9,7 +9,7 @@
             aria-expanded="false"
             class="navbar-burger"
             :class="{ 'is-active': showMenu }"
-            v-on:click="$emit('navbar:toggle')"
+            v-on:click="$emit('navbar-toggle')"
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -21,15 +21,14 @@
             <a
               class="navbar-item"
               rel="noreferrer"
-              v-for="link in links"
-              :key="link.url"
+              v-for="(link, key) in links"
+              :key="key"
               :href="link.url"
               :target="link.target"
             >
               <i
                 v-if="link.icon"
-                style="margin-right: 6px;"
-                :class="['fa-fw', link.icon]"
+                :class="['fa-fw', link.icon, { 'mr-2': link.name }]"
               ></i>
               {{ link.name }}
             </a>

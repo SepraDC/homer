@@ -2,7 +2,7 @@
   <div v-if="offline" class="offline-message">
     <i class="far fa-dizzy"></i>
     <h1>
-      You're offline bro.
+      You're offline friend.
       <span @click="checkOffline"> <i class="fas fa-redo-alt"></i></span>
     </h1>
   </div>
@@ -44,7 +44,7 @@ export default {
           that.offline = true;
         })
         .finally(function () {
-          that.$emit("network:status-update", that.offline);
+          that.$emit("network-status-update", that.offline);
         });
     },
   },
