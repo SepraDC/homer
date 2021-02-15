@@ -11,7 +11,7 @@
       <span
         v-if="message.author"
         class="is-italic is-inline-block has-text-right"
-        style="width: 100%;"
+        style="width: 100%"
         v-html="message.author"
       ></span>
     </div>

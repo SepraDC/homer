@@ -1,13 +1,11 @@
 <template>
   <div class="message">
-    <div class="message-header" style="font-size: 0.95em;">
+    <div class="message-header" style="font-size: 0.95em">
       {{ moment(date).locale("fr").format("dddd ll").toUpperCase() }}
     </div>
-    <div class="message-body">
+    <div class="message-body agenda-day">
       <div v-for="(course, index) in courses" v-bind:key="index">
-        <div class="course" v-if="course === null">
-          Pas de cours ce jour
-        </div>
+        <div class="course" v-if="course === null">Pas de cours ce jour</div>
         <div v-else class="course">
           <div>
             <span>{{ course.debut }}-{{ course.fin }}</span>
@@ -19,9 +17,7 @@
           {{ course.matiere }}
         </div>
         <div
-          v-if="
-            parseInt(course.fin.split(':')[0]) === 13 && courses[index + 1]
-          "
+          v-if="parseInt(course.fin.split(':')[0]) === 13 && courses[index + 1]"
           class="repas has-background-success"
         >
           Repas

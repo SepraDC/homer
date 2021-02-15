@@ -60,9 +60,6 @@ export default {
   },
   created: async function () {
     const fetchedPassages = await this.getPassage();
-    if (this.row === undefined) {
-      this.row = 5;
-    }
     for (let i = 0; i < this.row; i++) {
       if (this.validDate(fetchedPassages.records[i].fields.date_passage)) {
         this.nextRecords.push(fetchedPassages.records[i]);
