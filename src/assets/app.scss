@@ -380,4 +380,12 @@ body {
   .changeWeek:hover {
     background-color: rgb(255, 255, 255, 0.5);
   }
+
+  .refresh {
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .refresh:hover {
+    background-color: rgb(255, 255, 255, 0.5);
+  }
 }

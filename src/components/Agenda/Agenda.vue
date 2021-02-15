@@ -1,20 +1,23 @@
 <template>
-  <div class="is-flex mx-1">
-    <div class="changeWeek" v-on:click="prevWeek">
-      <i class="fas fa-angle-left"></i>
-    </div>
-    <div class="columns is-1">
-      <div
-        class="column mx-2"
-        v-for="(data, index) in this.edt.data"
-        v-bind:key="index"
-      >
-        <Day :courses="data.courses" :date="data.date" />
+  <div>
+    <div class="is-flex mx-1">
+      <div class="changeWeek" v-on:click="prevWeek">
+        <i class="fas fa-angle-left"></i>
+      </div>
+      <div class="wrapper">
+        <div
+          class="agenda-column"
+          v-for="(data, index) in this.edt.data"
+          v-bind:key="index"
+        >
+          <Day :courses="data.courses" :date="data.date" />
+        </div>
+      </div>
+      <div class="changeWeek" v-on:click="nextWeek">
+        <i class="fas fa-angle-right"></i>
       </div>
     </div>
-    <div class="changeWeek" v-on:click="nextWeek">
-      <i class="fas fa-angle-right"></i>
-    </div>
+    <i class="fas fa-sync-alt refresh" v-on:click="refresh"></i>
   </div>
 </template>
 
@@ -51,6 +54,23 @@ export default {
     this.edt = await this.getEDT();
   },
   methods: {
+    postEDT: function () {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      };
+      return fetch(
+        "https://malzik.ovh/api/" +
+          this.name +
+          "/" +
+          this.date.format("DD-MM-YYYY"),
+        requestOptions
+      ).then(function (response) {
+        if (response.ok) {
+          return response.json();
+        }
+      });
+    },
     getEDT: function () {
       return fetch(
         "https://malzik.ovh/api/" +
@@ -76,6 +96,9 @@ export default {
         .add(1, "day")
         .add(-1, "week");
       this.edt = await this.getEDT();
+    },
+    async refresh() {
+      this.edt = await this.postEDT();
     },
     moment,
   },
