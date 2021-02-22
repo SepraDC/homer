@@ -44,11 +44,7 @@
                 <div class="dropdown-item">
                   <div v-for="player in server.players.sample">
                     <p>
-                      <img
-                        width="16"
-                        :src="'https://crafatar.com/avatars/' + player.id"
-                        alt=""
-                      />
+                      <img width="16" :src="player.avatar" alt="" />
 
                       {{ player.name }}
                     </p>
@@ -74,15 +70,16 @@ export default {
       server: {
         hostname: null,
         port: null,
-        description: null,
         players: {
           online: 0,
           max: 10,
           sample: {
             id: null,
             name: null,
+            avatar: null,
           },
         },
+        description: null,
       },
     };
   },
@@ -92,21 +89,12 @@ export default {
   methods: {
     getServer: function () {
       return fetch(
-        "https://sepradc-serv.ovh/api/server/" + this.item.hostname
+        "http://192.168.1.59:3000/server/" + this.item.hostname
       ).then(function (response) {
         if (response.ok) {
           return response.json();
         }
       });
-    },
-    getPlayer: function (name) {
-      return fetch("https://sepradc-serv.ovh/api/player/" + name).then(
-        function (response) {
-          if (response.ok) {
-            return response.json();
-          }
-        }
-      );
     },
   },
 };
