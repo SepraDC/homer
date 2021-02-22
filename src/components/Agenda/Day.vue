@@ -36,7 +36,7 @@ export default {
     courses: null,
   },
   created() {
-    console.log(this.courses);
+    // console.log(this.courses);
   },
   methods: {
     moment,

@@ -72,6 +72,12 @@ body #app.theme-discord {
   }
   ::-webkit-scrollbar { width: 0 !important }
 
+  @media screen and (max-width: 768px) {
+    .wrapper {
+      grid-template-columns: repeat(5, 100%);
+    }    
+  }
+
   .agenda-day{
     display: grid;
     grid-template-rows: (6, 1fr);
