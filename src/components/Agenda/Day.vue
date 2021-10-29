@@ -9,15 +9,16 @@
         <div v-else class="course">
           <div>
             <span>{{ course.debut }}-{{ course.fin }}</span>
-            <span class="tag" v-if="!course.salle.startsWith('SALLE')">
+            <span class="tag" v-if="!course.salle.startsWith('SALLE') && !course.salle.startsWith('NS')">
               {{ course.salle }}
             </span>
             <span class="tag" v-else> Visio</span>
           </div>
-          {{ course.matiere }}
+          <span class="has-text-weight-bold is-block">{{ course.matiere }}</span>
+          {{course.prof}}
         </div>
         <div
-          v-if="parseInt(course.fin.split(':')[0]) === 13 && courses[index + 1]"
+          v-if="parseInt(course.fin.split(':')[0]) === 12 && courses[index + 1]"
           class="repas has-background-success"
         >
           Repas

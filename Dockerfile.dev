@@ -4,9 +4,9 @@ FROM node:lts-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
-RUN npm install -g @vue/cli
+# RUN npm install -g @vue/cli
 
 COPY . .
 

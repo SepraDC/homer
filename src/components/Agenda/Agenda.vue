@@ -23,7 +23,7 @@
 
 <script>
 import moment from "moment";
-import Day from "@/components/Agenda/Day";
+import Day from "./Day";
 export default {
   name: "Agenda",
   components: {

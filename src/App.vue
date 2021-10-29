@@ -95,7 +95,7 @@
                 </div>
                 {{ group.name }}
               </h2>
-              <Services
+              <Service
                 v-for="(item, index) in group.items"
                 :key="`service-${groupIndex}-${index}`"
                 :item="item"
@@ -139,6 +139,8 @@
       </div>
     </section>
 
+    <Agenda class="mb-6"></Agenda>
+
     <footer class="footer">
       <div class="container">
         <div
@@ -168,6 +170,7 @@ import SettingToggle from "./components/SettingToggle.vue";
 import DarkMode from "./components/DarkMode.vue";
 import DynamicTheme from "./components/DynamicTheme.vue";
 import PontChaban from "./components/PontChaban";
+import Agenda from "./components/Agenda/Agenda"
 
 import defaultConfig from "./assets/defaults.yml?raw";
 
@@ -175,6 +178,7 @@ export default {
   name: "App",
   components: {
     PontChaban,
+    Agenda,
     Navbar,
     GetStarted,
     ConnectivityChecker,
