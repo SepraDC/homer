@@ -136,10 +136,13 @@
             Rechercher sur internet...
           </h1>
         </div>
+        <div id="edt">
+          <h2 class="is-fullwidth group-title"><i class="fa-w far fa-calendar-alt"></i> Emploi du temps </h2>
+          <Agenda :name="config.edt" class="mb-6 mx-4"></Agenda>
+        </div>
       </div>
-    </section>
 
-    <Agenda class="mb-6"></Agenda>
+    </section>
 
     <footer class="footer">
       <div class="container">

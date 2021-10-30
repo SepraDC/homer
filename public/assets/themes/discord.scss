@@ -69,13 +69,16 @@ body #app.theme-discord {
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
     overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+
+    ::-webkit-scrollbar { display: none}
   }
-  ::-webkit-scrollbar { width: 0 !important }
+  //::-webkit-scrollbar { width: 0 !important }
 
   @media screen and (max-width: 768px) {
     .wrapper {
       grid-template-columns: repeat(5, 100%);
-    }    
+    }
   }
 
   .agenda-day{

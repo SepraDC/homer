@@ -61,7 +61,7 @@ export default {
       };
       return fetch(
         "https://malzik.ovh/api/" +
-          this.name +
+          "i1/g1" +
           "/" +
           this.date.format("DD-MM-YYYY"),
         requestOptions

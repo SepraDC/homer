@@ -353,22 +353,39 @@ body {
   }
 
   .course {
-    height: 80px;
+    max-height: 80rem;
+    overflow: scroll;
     position: relative;
-    margin-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px white solid;
+    padding: 10px 5px 10px 5px;
+    border-bottom: 1px dashed white;
+    border-top: 1px dashed white;
+    scrollbar-width: none;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
 
     .tag {
-      top: 0;
+      position: absolute;
+      top: 10px;
+      right: 0;
       width: auto;
       color: #ffffff;
       padding: 0 0.75em;
+      font-size: 0.7em;
 
       .tag-text {
         display: block;
       }
     }
+
+    span {
+      font-size: 0.9em;
+    }
+  }
+
+  .course:hover {
+    background-color: #6e6e6e;
   }
 
   .repas{
