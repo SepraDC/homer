@@ -32,7 +32,7 @@
       </tbody>
     </table>
   </div>
-  <div v-else><h1>Pas de nouvelles fermetures</h1></div>
+  <div v-else><h2>Pas de nouvelles fermetures</h2></div>
 </template>
 <script>
 import moment from "moment";
@@ -64,6 +64,7 @@ export default {
       if (this.validDate(fetchedPassages.records[i].fields.date_passage)) {
         this.nextRecords.push(fetchedPassages.records[i]);
       }
+      console.log(this.records);
     }
   },
   methods: {
@@ -82,7 +83,7 @@ export default {
     validDate: function (date_passage) {
       let date = new Date(date_passage);
       let today = new Date();
-      return date.getTime() > today.getTime();
+      return date.getTime() >= today.getTime();
     },
   },
 };

@@ -1,29 +1,36 @@
 <template>
   <div>
-    <div class="is-flex mx-1">
-      <div class="changeWeek" v-on:click="prevWeek">
-        <i class="fas fa-angle-left"></i>
-      </div>
-      <div class="wrapper">
-        <div
-          class="agenda-column"
-          v-for="(data, index) in this.edt.data"
-          v-bind:key="index"
-        >
-          <Day :courses="data.courses" :date="data.date" />
-        </div>
-      </div>
-      <div class="changeWeek" v-on:click="nextWeek">
-        <i class="fas fa-angle-right"></i>
+    <div class="is-inline-block">
+      <i
+        class="fas fa-angle-left navigation__buttons"
+        v-on:click="prevWeek"
+      ></i>
+      <i class="fas fa-sync-alt navigation__buttons" v-on:click="refresh"></i>
+      <i
+        class="fas fa-angle-right navigation__buttons"
+        v-on:click="nextWeek"
+      ></i>
+      <h2 class="is-inline">
+        {{ moment(date).locale("fr").format("MMMM YYYY").toUpperCase() }}
+      </h2>
+    </div>
+
+    <div class="wrapper">
+      <div
+        class="agenda-column"
+        v-for="(data, index) in this.edt.data"
+        v-bind:key="index"
+      >
+        <Day :courses="data.courses" :date="data.date" />
       </div>
     </div>
-    <i class="fas fa-sync-alt refresh" v-on:click="refresh"></i>
   </div>
 </template>
 
 <script>
 import moment from "moment";
 import Day from "./Day";
+
 export default {
   name: "Agenda",
   components: {

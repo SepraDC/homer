@@ -71,13 +71,6 @@
         <div v-if="!offline">
           <!-- Optional messages -->
           <Message :item="config.message" />
-          <div v-if="config.pontChaban">
-            <h2 class="is-fullwidth group-title">
-              <i class="fa-w fas fa-ship"></i>
-              Pont Chaban Delmas
-            </h2>
-            <PontChaban />
-          </div>
 
           <!-- Horizontal layout -->
           <div v-if="!vlayout || filter" class="columns is-multiline">
@@ -137,11 +130,19 @@
           </h1>
         </div>
         <div id="edt">
-          <h2 class="is-fullwidth group-title"><i class="fa-w far fa-calendar-alt"></i> Emploi du temps </h2>
-          <Agenda :name="config.edt" class="mb-6 mx-4"></Agenda>
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w far fa-calendar-alt"></i> Emploi du temps
+          </h2>
+          <Agenda :name="config.edt.name" class="mb-6 mx-4"></Agenda>
+        </div>
+        <div v-if="config.pontChaban">
+          <h2 class="is-fullwidth group-title">
+            <i class="fa-w fas fa-ship"></i>
+            Pont Chaban Delmas
+          </h2>
+          <PontChaban />
         </div>
       </div>
-
     </section>
 
     <footer class="footer">
@@ -173,7 +174,7 @@ import SettingToggle from "./components/SettingToggle.vue";
 import DarkMode from "./components/DarkMode.vue";
 import DynamicTheme from "./components/DynamicTheme.vue";
 import PontChaban from "./components/PontChaban";
-import Agenda from "./components/Agenda/Agenda"
+import Agenda from "./components/Agenda/Agenda";
 
 import defaultConfig from "./assets/defaults.yml?raw";
 

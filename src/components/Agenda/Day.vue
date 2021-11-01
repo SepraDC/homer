@@ -1,23 +1,39 @@
 <template>
   <div class="message">
     <div class="message-header" style="font-size: 0.95em">
-      {{ moment(date).locale("fr").format("dddd ll").toUpperCase() }}
+      {{ moment(date).locale("fr").format("dddd D").toUpperCase() }}
     </div>
     <div class="message-body agenda-day">
-      <div v-for="(course, index) in courses" v-bind:key="index"
-           class="course"
-           :style="{'grid-row': position(course.debut, course.fin)}">
+      <h3 v-if="courses.length === 0" class="mx-auto">Aucun cours</h3>
+      <div
+        v-else
+        v-for="(course, index) in courses"
+        v-bind:key="index"
+        class="course has-tooltip-multiline"
+        :style="{ 'grid-row': position(course.debut, course.fin) }"
+        :data-tooltip="course.prof"
+      >
         <div>
-          <span>{{ course.debut }}-{{course.fin }}</span>
-          <span class="tag" v-if="!course.salle.startsWith('SALLE') && !course.salle.startsWith('NS')">{{ course.salle }}</span>
+          <span>{{ course.debut }}-{{ course.fin }}</span>
+          <span
+            class="tag"
+            v-if="
+              !course.salle.startsWith('SALLE') &&
+              !course.salle.startsWith('NS')
+            "
+            >{{ course.salle }}</span
+          >
           <span class="tag" v-else> Visio</span>
         </div>
-        <span class="has-text-weight-bold is-block is-full">{{
-            course.matiere.length > 30 ? course.matiere.substring(0, 30) + "..." : course.matiere
-          }}</span>
-        <span class="is-block is-full has-text-right">{{ course.prof }}</span>
+        <span class="has-text-weight-bold is-block is-full">
+          {{ course.matiere }}</span
+        >
       </div>
-      <div class="repas has-background-success" style="grid-row: 5 / 5">
+      <div
+        v-if="courses.length > 0"
+        class="repas has-background-success"
+        style="grid-row: 5 / 5"
+      >
         Repas
       </div>
     </div>
@@ -39,11 +55,11 @@ export default {
   methods: {
     moment,
     position(start, end) {
-      const startTime = start.split(':')[0]
-      const endTime = end.split(':')[0]
+      const startTime = start.split(":")[0];
+      const endTime = end.split(":")[0];
 
-      return (startTime - 7).toString() + ' / ' + (endTime - 7).toString()
-    }
+      return (startTime - 7).toString() + " / " + (endTime - 7).toString();
+    },
   },
 };
 </script>

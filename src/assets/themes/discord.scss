@@ -62,27 +62,4 @@ body #app.theme-discord {
   strong{
     color: var(--text-title);
   }
-  .wrapper {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
-    overflow: scroll;
-    scrollbar-width: none;
-
-    ::-webkit-scrollbar { display: none}
-  }
-
-  @media screen and (max-width: 768px) {
-    .wrapper {
-      grid-template-columns: repeat(5, 100%);
-    }
-  }
-
-  .agenda-day{
-    height: 45rem;
-    display: grid;
-    grid-template-rows: repeat(12, 1fr);
-  }
 }
