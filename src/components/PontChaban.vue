@@ -64,13 +64,12 @@ export default {
       if (this.validDate(fetchedPassages.records[i].fields.date_passage)) {
         this.nextRecords.push(fetchedPassages.records[i]);
       }
-      console.log(this.records);
     }
   },
   methods: {
     getPassage: function () {
       return fetch(
-        "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows=20&sort=-date_passage&facet=bateau&refine.date_passage=" +
+        "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows="+this.row+"&sort=-date_passage&facet=bateau&refine.date_passage=" +
           filterDate
       ).then(function (response) {
         if (response.status !== 200) {

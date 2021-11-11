@@ -88,13 +88,13 @@ export default {
   },
   methods: {
     getServer: function () {
-      return fetch(
-        "http://192.168.1.59:3000/server/" + this.item.hostname
-      ).then(function (response) {
-        if (response.ok) {
-          return response.json();
+      return fetch("https://sepradc.ovh/server/" + this.item.hostname).then(
+        function (response) {
+          if (response.ok) {
+            return response.json();
+          }
         }
-      });
+      );
     },
   },
 };

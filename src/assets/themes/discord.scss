@@ -29,6 +29,10 @@ body #app.theme-discord {
     }
   }
 
+  .table-container {
+    border-radius: 4px;
+  }
+
   .table{
     tr:not(.is-selected):nth-child(2n){
       background-color: var(--highlight-primary)
@@ -45,7 +49,6 @@ body #app.theme-discord {
     }
     tbody {
       background-color: var(--card-background);
-      border-radius: 0 0 4px 4px;
     }
     th{
       color: var(--text-header);

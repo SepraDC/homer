@@ -140,7 +140,7 @@
             <i class="fa-w fas fa-ship"></i>
             Pont Chaban Delmas
           </h2>
-          <PontChaban />
+          <PontChaban :row="config.pontChaban.row" />
         </div>
       </div>
     </section>
