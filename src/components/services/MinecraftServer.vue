@@ -44,8 +44,7 @@
                 <div class="dropdown-item">
                   <div v-for="player in server.players.sample">
                     <p>
-                      <img width="16" :src="player.avatar" alt="" />
-
+                      <img width="16" :src="player.skin" alt="" />
                       {{ player.name }}
                     </p>
                   </div>
@@ -76,7 +75,7 @@ export default {
           sample: {
             id: null,
             name: null,
-            avatar: null,
+            skin: null,
           },
         },
         description: null,
