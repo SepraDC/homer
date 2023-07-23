@@ -1,7 +1,7 @@
 <template>
   <div class="message">
     <div class="message-header" style="font-size: 0.95em">
-      {{ moment(date).locale("fr").format("dddd D").toUpperCase() }}
+      {{ dayjs(date).locale("fr").format("dddd D").toUpperCase() }}
     </div>
     <div class="message-body agenda-day">
       <h3 v-if="courses.length === 0" class="mx-auto">Aucun cours</h3>
@@ -30,7 +30,7 @@
         >
       </div>
       <div
-        v-if="courses.length > 0"
+        v-if="props.courses.length > 0"
         class="repas has-background-success"
         style="grid-row: 5 / 5"
       >
@@ -40,27 +40,20 @@
   </div>
 </template>
 
-<script>
-import moment from "moment";
+<script setup lang="ts">
+import dayjs from "dayjs";
 
-export default {
-  name: "Day",
-  props: {
-    date: null,
-    courses: null,
-  },
-  created() {
-    // console.log(this.courses);
-  },
-  methods: {
-    moment,
-    position(start, end) {
-      const startTime = start.split(":")[0];
-      const endTime = end.split(":")[0];
+const props = defineProps<{
+  date: Date,
+  courses: unknown
+}>()
 
-      return (startTime - 7).toString() + " / " + (endTime - 7).toString();
-    },
-  },
+    
+const position = (start, end) => {
+  const startTime = start.split(":")[0];
+  const endTime = end.split(":")[0];
+
+  return (startTime - 7).toString() + " / " + (endTime - 7).toString();
 };
 </script>
 

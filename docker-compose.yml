@@ -1,15 +1,15 @@
----
-version: "2"
+version: "3.7"
 services:
   homer:
-    image: b4bz/homer
-    #To build from source, comment previous line and uncomment below
-    #build: .
-    container_name: homer
-    volumes:
-      - /your/local/assets/:/www/assets
+   # image: b4bz/homer
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: "homer"
+    user: 1000:1000
     ports:
-      - 8080:8080
-    user: 1000:1000 # default
+    - 8080:8080
+    volumes:
+    - "./:/app"
     environment:
-      - INIT_ASSETS=1 # default
+      - INIT_ASSETS=1

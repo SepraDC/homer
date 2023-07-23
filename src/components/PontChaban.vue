@@ -23,7 +23,7 @@
           </td>
           <td>
             <strong>{{
-              moment(record.fields.date_passage).format("DD/MM/YYYY")
+              dayjs(record.fields.date_passage).format("DD/MM/YYYY")
             }}</strong>
           </td>
           <td>{{ record.fields.fermeture_a_la_circulation }}</td>
@@ -34,20 +34,21 @@
   </div>
   <div v-else><h2>Pas de nouvelles fermetures</h2></div>
 </template>
-<script>
-import moment from "moment";
-export const today = new Date();
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import dayjs from "dayjs";
+
+const today = new Date();
 const filterDate = today.getFullYear() + "-" + (today.getMonth() + 1);
-export default {
-  name: "PontChaban",
-  props: {
-    row: null,
-  },
-  data() {
-    return {
-      nextRecords: [],
-      records: {
-        fields: {
+
+const props = defineProps<{
+  row: unknown
+}>();
+
+const nextRecords = ref([]);
+
+interface records {
+  fields: {
           date_passage: null,
           type_de_fermeture: "",
           bateau: "",
@@ -55,21 +56,12 @@ export default {
           fermeture_totale: "",
           re_ouverture_a_la_circulation: "",
         },
-      },
-    };
-  },
-  created: async function () {
-    const fetchedPassages = await this.getPassage();
-    for (let i = 0; i < this.row; i++) {
-      if (this.validDate(fetchedPassages.records[i].fields.date_passage)) {
-        this.nextRecords.push(fetchedPassages.records[i]);
-      }
-    }
-  },
-  methods: {
-    getPassage: function () {
+};
+
+
+const getPassage= async () => {
       return fetch(
-        "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows="+this.row+"&sort=-date_passage&facet=bateau&refine.date_passage=" +
+        "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=previsions_pont_chaban&q=&rows="+props.row+"&sort=-date_passage&facet=bateau&refine.date_passage=" +
           filterDate
       ).then(function (response) {
         if (response.status !== 200) {
@@ -77,15 +69,24 @@ export default {
         }
         return response.json();
       });
-    },
-    moment,
-    validDate: function (date_passage) {
+    };
+
+const validDate = (date_passage) => {
       let date = new Date(date_passage);
       let today = new Date();
       return date.getTime() >= today.getTime();
-    },
-  },
-};
+    };
+
+
+  onMounted(async () => {
+    const fetchedPassages = await getPassage();
+    for (let i = 0; i < props.row; i++) {
+      if (validDate(fetchedPassages.records[i].fields.date_passage)) {
+        nextRecords.value.push(fetchedPassages.records[i]);
+      }
+    }
+
+  });
 </script>
 
 <style scoped></style>

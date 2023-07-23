@@ -8,10 +8,10 @@
               <figure class="image is-32x32 mx-2">
                 <img
                   v-if="server.online"
-                  src="assets/tools/checked.svg"
+                  src="/assets/tools/checked.svg"
                   alt="none"
                 />
-                <img v-else src="assets/tools/cancel.svg" alt="none" />
+                <img v-else src="/assets/tools/cancel.svg" alt="none" />
               </figure>
               <span v-if="server.online" class="has-text-success is-6"
                 >Online</span

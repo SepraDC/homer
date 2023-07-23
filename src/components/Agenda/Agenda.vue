@@ -1,115 +1,101 @@
 <template>
   <div>
     <div class="is-inline-block">
-      <i
-        class="fas fa-angle-left navigation__buttons"
-        v-on:click="prevWeek"
-      ></i>
-      <i class="fas fa-sync-alt navigation__buttons" v-on:click="refresh"></i>
-      <i
-        class="fas fa-angle-right navigation__buttons"
-        v-on:click="nextWeek"
-      ></i>
+      <i class="fas fa-angle-left navigation__buttons" @click="prevWeek"></i>
+      <i class="fas fa-sync-alt navigation__buttons" @click="refresh"></i>
+      <i class="fas fa-angle-right navigation__buttons" @click="nextWeek"></i>
       <h2 class="is-inline">
-        {{ moment(date).locale("fr").format("MMMM YYYY").toUpperCase() }}
+        {{ dayjs(date).locale("fr").format("MMMM YYYY").toUpperCase() }}
       </h2>
     </div>
 
     <div class="wrapper">
-      <div
-        class="agenda-column"
-        v-for="(data, index) in this.edt.data"
-        v-bind:key="index"
-      >
+      <div class="agenda-column" v-for="(data, index) in this.edt.data" v-bind:key="index">
         <Day :courses="data.courses" :date="data.date" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import moment from "moment";
+<script  setup lang="ts">
+import { ref } from "vue";
 import Day from "./Day";
+import dayjs from "dayjs";
 
-export default {
-  name: "Agenda",
-  components: {
-    Day,
-  },
-  props: {
-    name: null,
-  },
-  data() {
-    return {
+const props = defineProps<{
+  name: string
+}>();
+
+const date = ref<Date>()
+const edt = ref<
+  {
+    data: {
       date: null,
-      edt: {
-        data: {
-          date: null,
-          courses: {
-            debut: "",
-            fin: "",
-            matiere: "",
-            prof: "",
-            salle: "",
-          },
-        },
+      courses: {
+        debut: "",
+        fin: "",
+        matiere: "",
+        prof: "",
+        salle: "",
       },
-    };
-  },
-  created: async function () {
-    this.date = moment().startOf("week").add(1, "day");
-    this.edt = await this.getEDT();
-  },
-  methods: {
-    postEDT: function () {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      };
-      return fetch(
-        "https://malzik.ovh/api/" +
-          "i1/g1" +
-          "/" +
-          this.date.format("DD-MM-YYYY"),
-        requestOptions
-      ).then(function (response) {
-        if (response.ok) {
-          return response.json();
-        }
-      });
     },
-    getEDT: function () {
-      return fetch(
-        "https://malzik.ovh/api/" +
-          this.name +
-          "/" +
-          this.date.format("DD-MM-YYYY")
-      ).then(function (response) {
-        if (response.ok) {
-          return response.json();
-        }
-      });
-    },
-    async nextWeek() {
-      this.date = moment(this.date)
-        .startOf("week")
-        .add(1, "day")
-        .add(1, "week");
-      this.edt = await this.getEDT();
-    },
-    async prevWeek() {
-      this.date = moment(this.date)
-        .startOf("week")
-        .add(1, "day")
-        .add(-1, "week");
-      this.edt = await this.getEDT();
-    },
-    async refresh() {
-      this.edt = await this.postEDT();
-    },
-    moment,
-  },
+  }>({});
+
+const postEDT = async () => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  };
+  return await fetch(
+    "https://malzik.ovh/api/" +
+    "i1/g1" +
+    "/" +
+    date.value.format("DD-MM-YYYY"),
+    requestOptions
+  ).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+  });
 };
+
+const getEDT = async () => {
+  return await fetch(
+    "https://malzik.ovh/api/" +
+    props.name +
+    "/" +
+    date.value.format("DD-MM-YYYY")
+  ).then(function (response) {
+    if (response.ok) {
+      return response.json();
+    }
+  });
+};
+
+const nextWeek = () => {
+  date.value = dayjs(date.value)
+    .startOf("week")
+    .add(1, "day")
+    .add(1, "week");
+  edt.value = getEDT();
+};
+
+const prevWeek = () => {
+  date.value = dayjs(date.value)
+    .startOf("week")
+    .add(1, "day")
+    .add(-1, "week");
+  edt.value = getEDT();
+};
+
+const refresh = async () => {
+  edt.value = await postEDT();
+};
+
+onMounted(async () => {
+  date.value = dayjs().startOf("week").add(1, "day");
+  edt.value = getEDT();
+});
 </script>
 
 <style scoped lang="scss"></style>

@@ -129,12 +129,6 @@
             Rechercher sur internet...
           </h1>
         </div>
-        <div id="edt">
-          <h2 class="is-fullwidth group-title">
-            <i class="fa-w far fa-calendar-alt"></i> Emploi du temps
-          </h2>
-          <Agenda :name="config.edt.name" class="mb-6 mx-4"></Agenda>
-        </div>
         <div v-if="config.pontChaban">
           <h2 class="is-fullwidth group-title">
             <i class="fa-w fas fa-ship"></i>
@@ -160,10 +154,6 @@
 <script>
 import { parse } from "yaml";
 import merge from "lodash.merge";
-import MinecraftServer from "@/components/MinecraftServer";
-const jsyaml = require("js-yaml");
-const merge = require("lodash.merge");
-
 import Navbar from "./components/Navbar.vue";
 import GetStarted from "./components/GetStarted.vue";
 import ConnectivityChecker from "./components/ConnectivityChecker.vue";
@@ -173,8 +163,7 @@ import SearchInput from "./components/SearchInput.vue";
 import SettingToggle from "./components/SettingToggle.vue";
 import DarkMode from "./components/DarkMode.vue";
 import DynamicTheme from "./components/DynamicTheme.vue";
-import PontChaban from "./components/PontChaban";
-import Agenda from "./components/Agenda/Agenda";
+import PontChaban from "./components/PontChaban.vue";
 
 import defaultConfig from "./assets/defaults.yml?raw";
 
@@ -182,7 +171,6 @@ export default {
   name: "App",
   components: {
     PontChaban,
-    Agenda,
     Navbar,
     GetStarted,
     ConnectivityChecker,
