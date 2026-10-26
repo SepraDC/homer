@@ -33,16 +33,12 @@
 
 <script>
 import service from "@/mixins/service.js";
-import Generic from "./Generic.vue";
 
 export default {
   name: "Medusa",
   mixins: [service],
   props: {
     item: Object,
-  },
-  components: {
-    Generic,
   },
   data: () => {
     return {
@@ -51,6 +47,10 @@ export default {
     };
   },
   created: function () {
+    // Set up auto-update method for the scheduler
+    this.autoUpdateMethod = this.fetchConfig;
+
+    // Initial data fetch
     this.fetchConfig();
   },
   methods: {

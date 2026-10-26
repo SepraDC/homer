@@ -6,14 +6,13 @@
         {{ message.title }}
       </p>
     </div>
-    <div class="message-body">
-      <div v-if="message.content" v-html="message.content"></div>
-      <span
+    <div v-if="message.content" class="message-body">
+      <div v-html="message.content"></div>
+      <p
         v-if="message.author"
-        class="is-italic is-inline-block has-text-right"
-        style="width: 100%"
+        class="is-italic has-text-right"
         v-html="message.author"
-      ></span>
+      ></p>
     </div>
   </article>
 </template>
@@ -29,11 +28,6 @@ export default {
       message: {},
     };
   },
-  created: async function () {
-    // Look for a new message if an endpoint is provided.
-    this.message = Object.assign({}, this.item);
-    await this.getMessage();
-  },
   computed: {
     show: function () {
       return this.message.title || this.message.content;
@@ -43,6 +37,11 @@ export default {
     item: function (item) {
       this.message = Object.assign({}, item);
     },
+  },
+  created: async function () {
+    // Look for a new message if an endpoint is provided.
+    this.message = Object.assign({}, this.item);
+    await this.getMessage();
   },
   methods: {
     getMessage: async function () {
@@ -57,7 +56,7 @@ export default {
 
         // keep the original config value if no value is provided by the endpoint
         const message = this.message;
-        for (const prop of ["title", "style", "content", "icon"]) {
+        for (const prop of ["title", "style", "content", "icon", "author"]) {
           if (prop in fetchedMessage && fetchedMessage[prop] !== null) {
             message[prop] = fetchedMessage[prop];
           }
@@ -71,12 +70,14 @@ export default {
     },
 
     downloadMessage: function (url) {
-      return fetch(url).then(function (response) {
-        if (response.status != 200) {
-          return;
-        }
-        return response.json();
-      });
+      return fetch(url, { headers: { Accept: "application/json" } }).then(
+        function (response) {
+          if (response.status != 200) {
+            return;
+          }
+          return response.json();
+        },
+      );
     },
 
     mapRemoteMessage: function (message) {

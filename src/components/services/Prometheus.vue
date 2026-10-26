@@ -19,7 +19,6 @@
 
 <script>
 import service from "@/mixins/service.js";
-import Generic from "./Generic.vue";
 
 const AlertsStatus = Object.freeze({
   firing: "firing",
@@ -32,9 +31,6 @@ export default {
   mixins: [service],
   props: {
     item: Object,
-  },
-  components: {
-    Generic,
   },
   data: () => ({
     api: {
@@ -63,6 +59,10 @@ export default {
     },
   },
   created() {
+    // Set up auto-update method for the scheduler
+    this.autoUpdateMethod = this.fetchStatus;
+
+    // Initial data fetch
     this.fetchStatus();
   },
   methods: {
@@ -72,7 +72,7 @@ export default {
     countFiring: function () {
       if (this.api) {
         return this.api.data?.alerts?.filter(
-          (alert) => alert.state === AlertsStatus.firing
+          (alert) => alert.state === AlertsStatus.firing,
         ).length;
       }
       return 0;
@@ -80,7 +80,7 @@ export default {
     countPending: function () {
       if (this.api) {
         return this.api.data?.alerts?.filter(
-          (alert) => alert.state === AlertsStatus.pending
+          (alert) => alert.state === AlertsStatus.pending,
         ).length;
       }
       return 0;
@@ -88,7 +88,7 @@ export default {
     countInactive: function () {
       if (this.api) {
         return this.api.data?.alerts?.filter(
-          (alert) => alert.state === AlertsStatus.pending
+          (alert) => alert.state === AlertsStatus.pending,
         ).length;
       }
       return 0;

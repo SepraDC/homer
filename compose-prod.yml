@@ -1,0 +1,35 @@
+# Stack Portainer. La config du dashboard est dans l'image (deploy/assets/), pas de volume :
+# un montage relatif serait résolu par Portainer dans /data/compose/<id>, absent de l'hôte.
+services:
+    homer:
+        image: registry.sepradc.ovh/homer:arm64
+        platform: linux/arm64
+        restart: unless-stopped
+        environment:
+            TZ: ${TZ:-Europe/Paris}
+        # Le healthcheck est défini dans le Dockerfile (wget sur :8080)
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=sepradcnetwork"
+            # Middlewares spécifiques à homer
+            - "traefik.http.middlewares.homer-force-https.redirectscheme.scheme=https"
+            - "traefik.http.middlewares.homer-force-https.redirectscheme.permanent=true"
+            # http://${HOST} : Redirect to https
+            - "traefik.http.routers.homer.rule=Host(`${HOST:-sepradc.ovh}`)"
+            - "traefik.http.routers.homer.entrypoints=web"
+            - "traefik.http.routers.homer.middlewares=homer-force-https"
+            - "traefik.http.routers.homer.service=homer"
+            - "traefik.http.services.homer.loadbalancer.server.port=8080"
+            # https://${HOST}
+            - "traefik.http.routers.homer-tls.rule=Host(`${HOST:-sepradc.ovh}`)"
+            - "traefik.http.routers.homer-tls.entrypoints=websecure"
+            - "traefik.http.routers.homer-tls.tls=true"
+            - "traefik.http.routers.homer-tls.tls.certresolver=le"
+            - "traefik.http.routers.homer-tls.service=homer-tls"
+            - "traefik.http.services.homer-tls.loadbalancer.server.port=8080"
+        networks:
+            sepradcnetwork:
+
+networks:
+    sepradcnetwork:
+        external: true

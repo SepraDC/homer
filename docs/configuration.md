@@ -1,11 +1,18 @@
 # Configuration
 
-Title, icons, links, colors, and services can be configured in the `config.yml` file (located in `/assets` directory once built, or in the `public/assets` directory in development mode), using [yaml](http://yaml.org/) format.
+Homer relies on a single [yaml](http://yaml.org/) configuration file, located in the `/assets` directory.  
+`.dist` sample configuration files are available to help you get started. Alternatively, the example below can be
+copied into the config file.
+
+> [!NOTE]  
+> On docker installations, the sample configuration is automatically installed when no configuration is found **if**
+> the configuration directory is writable to the docker user. If no configuration has been installed, check your
+> container logs and your mounted configuration directory ownership & permissions  
 
 ```yaml
 ---
 # Homepage configuration
-# See https://fontawesome.com/v5/search for icons options
+# See https://fontawesome.com/search for icons options
 
 # Optional: Use external configuration file.
 # Using this will ignore remaining config in this file
@@ -31,11 +38,16 @@ connectivityCheck: true # whether you want to display a message when the apps ar
 # Optional: Proxy / hosting option
 proxy:
   useCredentials: false # send cookies & authorization headers when fetching service specific data. Set to `true` if you use an authentication proxy. Can be overrided on service level. 
+  headers: # send custom headers when fetching service specific data. Can also be set on a service level.
+    Test: "Example"
+    Test1: "Example1"
+
 
 # Set the default layout and color scheme
 defaults:
   layout: columns # Either 'columns', or 'list'
   colorTheme: auto # One of 'auto', 'light', or 'dark'
+  iconWidth: auto # Either 'auto', or 'fixed'
 
 # Optional theming
 theme: default # 'default' or one of the themes available in 'src/assets/themes'.
@@ -62,7 +74,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.1)
     link: "#3273dc"
     link-hover: "#363636"
-    background-image: "assets/your/light/bg.png"
+    background-image: "/assets/your/light/bg.png" # prefix with your sub subpath if any (ex: /homer/assets/...)
   dark:
     highlight-primary: "#3367d6"
     highlight-secondary: "#4285f4"
@@ -76,7 +88,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.4)
     link: "#3273dc"
     link-hover: "#ffdd57"
-    background-image: "assets/your/dark/bg.png"
+    background-image: "/assets/your/dark/bg.png" # prefix with your sub subpath if any (ex: /homer/assets/...)
 
 # Optional message
 message:
@@ -95,12 +107,8 @@ message:
   style: "is-warning"
   title: "Optional message!"
   icon: "fa fa-exclamation-triangle"
+  # The content also accepts HTML content, so you can add divs, images or whatever you want to make match your needs.
   content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-
-#optionnal tools
-edt: "firstname.lastname"
-pontChaban: true
-row: 5
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
@@ -118,6 +126,9 @@ links:
     icon: "fas fa-file-alt"
     url: "#page2"
 
+# Optional: enable periodic refresh for all smart cards that implements it (unless overriden at service configuration level).
+updateIntervalMs: 30000 # interval in milliseconds, minimum is 1000 (1s). Remove or set to 0 to disable. Can be overriden at service level. (default disabled)
+
 # Services
 # First level array represents a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
@@ -126,12 +137,10 @@ services:
     icon: "fas fa-code-branch"
     # A path to an image can also be provided. Note that icon take precedence if both icon and logo are set.
     # logo: "path/to/logo"
+    # class: "highlight-purple" # Optional css class to add on the service group. 
     items:
       - name: "Awesome app"
         logo: "assets/tools/sample.png"
-        # Props to select the type of the service
-        # Currently ( Link, MinecraftServer )
-        type: "Link"
         # Alternatively a fa icon can be provided:
         # icon: "fab fa-jenkins"
         subtitle: "Bookmark example"
@@ -160,7 +169,7 @@ services:
         # background: red # optional color for card to set color directly without custom stylesheet
 ```
 
-View **[Custom Services](customservices.md)** for details about all available custom services (like `PiHole`) and how to configure them.
+View **[smart cards](customservices.md)** for details about all available cards (like `PiHole`) and how to configure them.
 
 If you choose to fetch message information from an endpoint, the output format should be as follows (or you can [custom map fields as shown in tips-and-tricks](./tips-and-tricks.md#mapping-fields)):
 
@@ -175,29 +184,40 @@ If you choose to fetch message information from an endpoint, the output format s
 `null` value or missing keys will be ignored and value from the `config.yml` will be used if available.
 Empty values (either in `config.yml` or the endpoint data) will hide the element (ex: set `"title": ""` to hide the title bar).
 
+## Connectivity checks
+
+As a webapp (PWA) the dashboard can still be displayed when your homer server is offline.
+The connectivity checker periodically sends a HEAD request bypassing the PWA cache to the dashboard page to make sure it's still reachable.
+
+It can be useful when you access your dashboard through a VPN or ssh tunnel for example, to know if your connection is up. It also helps when using an authentication proxy, it will reload the page if the authentication expires (when a redirect is send in response to the HEAD request).
+
 ## Style Options
 
-Homer uses [bulma CSS](https://bulma.io/), which provides a [modifiers syntax](https://bulma.io/documentation/modifiers/syntax/). You'll notice in the config there is a `tagstyle` option. It can be set to any of the bulma modifiers. You'll probably want to use one of these 4 main colors:
+Homer uses [bulma CSS](https://bulma.io/), which provides a [modifiers syntax](https://bulma.io/documentation/start/syntax/). You'll notice in the config there is a `tagstyle` option. It can be set to any of the bulma modifiers. You'll probably want to use one of these 4 main colors:
 
 - `is-info` (blue)
 - `is-success` (green)
 - `is-warning` (yellow)
 - `is-danger` (red)
 
-You can read the [bulma modifiers page](https://bulma.io/documentation/modifiers/syntax/) for other options regarding size, style, or state.
+You can read the [bulma modifiers page](https://bulma.io/documentation/start/syntax/) for other options regarding size, style, or state.
+
+### Icon width
+
+Font Awesome 7 gives every icon the same width, which is what the `fa-fw` class used to do on its own. Homer keeps the previous behaviour by default, so each icon takes up only the space it needs. Set `iconWidth: fixed` under the `defaults` key to opt into the uniform width, which lines up icons in a column when you list several services with different icons.
 
 ## Theming & customization
 
 See `colors` settings in the configuration example above.
-Favicon et application icon (pwa) are located in the `assets/icons` directory and can be replaced by any image you want (just keep the same name & size).
+Favicon and application icon (pwa) are located in the `assets/icons` directory and can be replaced by any image you want (just keep the same name & size).
 The `/assets/manifest.json` can also be edited to change the app (pwa) name, description and other settings.
 
 ### Community theme
 
-- [Dracula theme](https://draculatheme.com/homer) by [@Tuetenk0pp](https://github.com/Tuetenk0pp)
-- [Homer Theme v2](https://github.com/walkxcode/homer-theme) by [walkxcode](https://github.com/walkxcode)
 - [Catppuccin theme](https://github.com/mrpbennett/catppucin-homer) by [@mrpbenett](https://github.com/mrpbennett)
-
+- [DietPi theme](https://codeberg.org/Cs137/homer-theme-dietpi) by [@Cs137](https://codeberg.org/Cs137)
+- [Dracula theme](https://draculatheme.com/homer) by [@Tuetenk0pp](https://github.com/Tuetenk0pp)
+- [Homer Theme v2](https://github.com/walkxcode/homer-theme) by [@walkxcode](https://github.com/walkxcode)
 
 ## PWA Icons
 

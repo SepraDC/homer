@@ -28,16 +28,12 @@
 
 <script>
 import service from "@/mixins/service.js";
-import Generic from "./Generic.vue";
 
 export default {
   name: "Tdarr",
   mixins: [service],
   props: {
     item: Object,
-  },
-  components: {
-    Generic,
   },
   data: () => ({
     stats: null,
@@ -58,11 +54,10 @@ export default {
     },
   },
   created() {
-    const checkInterval = parseInt(this.item.checkInterval, 10) || 0;
-    if (checkInterval > 0) {
-      setInterval(() => this.fetchStatus(), checkInterval);
-    }
+    // Set up auto-update method for the scheduler
+    this.autoUpdateMethod = this.fetchStatus;
 
+    // Initial data fetch
     this.fetchStatus();
   },
   methods: {
@@ -72,14 +67,20 @@ export default {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
           },
-          body: JSON.stringify({"headers":{"content-Type":"application/json"},"data":{"collection":"StatisticsJSONDB","mode":"getById","docID":"statistics","obj":{}},"timeout":1000}),
+          body: JSON.stringify({
+            headers: { "content-Type": "application/json" },
+            data: {
+              collection: "StatisticsJSONDB",
+              mode: "getById",
+              docID: "statistics",
+              obj: {},
+            },
+            timeout: 1000,
+          }),
         };
-        const response = await this.fetch(
-          `/api/v2/cruddb`,
-          options
-        );
+        const response = await this.fetch(`/api/v2/cruddb`, options);
         this.error = false;
         this.stats = response;
       } catch (e) {

@@ -21,16 +21,12 @@
 
 <script>
 import service from "@/mixins/service.js";
-import Generic from "./Generic.vue";
 
 export default {
   name: "AdGuardHome",
   mixins: [service],
   props: {
     item: Object,
-  },
-  components: {
-    Generic,
   },
   data: () => {
     return {
@@ -55,21 +51,27 @@ export default {
     },
   },
   created: function () {
+    // Set up auto-update method for the scheduler
+    this.autoUpdateMethod = this.fetchStatus;
+
+    // Initial data fetch
     this.fetchStatus();
-    if (!this.item.subtitle) {
-      this.fetchStats();
-    }
   },
   methods: {
     fetchStatus: async function () {
-      this.status = await this.fetch("/control/status").catch((e) =>
-        console.log(e)
-      );
-    },
-    fetchStats: async function () {
-      this.stats = await this.fetch("/control/stats").catch((e) =>
-        console.log(e)
-      );
+      this.fetch("/control/status")
+        .then((status) => {
+          this.status = status;
+        })
+        .catch((e) => console.log(e));
+
+      if (!this.item.subtitle) {
+        this.fetch("/control/stats")
+          .then((stats) => {
+            this.stats = stats;
+          })
+          .catch((e) => console.log(e));
+      }
     },
   },
 };

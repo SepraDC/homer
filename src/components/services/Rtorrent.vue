@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import Generic from "./Generic.vue";
-
 // Units to add to download and upload rates.
 const units = ["B", "kiB", "MiB", "GiB"];
 
@@ -41,15 +39,14 @@ const displayRate = (rate) => {
 
   return (
     Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(
-      rate || 0
+      rate || 0,
     ) + ` ${units[i]}/s`
   );
 };
 
 export default {
-  name: "rTorrent",
+  name: "RTorrent",
   props: { item: Object },
-  components: { Generic },
   // Properties for download, upload, torrent count and errors.
   data: () => ({ dl: null, ul: null, count: null, error: null }),
   // Computed properties for the rate labels.
@@ -62,24 +59,18 @@ export default {
     },
   },
   created() {
-    // Set intervals if configured so the rates and/or torrent count
-    // will be updated.
-    const rateInterval = parseInt(this.item.rateInterval, 10) || 0;
-    const torrentInterval = parseInt(this.item.torrentInterval, 10) || 0;
-
-    if (rateInterval > 0) {
-      setInterval(() => this.fetchRates(), rateInterval);
-    }
-
-    if (torrentInterval > 0) {
-      setInterval(() => this.fetchCount(), torrentInterval);
-    }
+    // Set up auto-update method for the scheduler
+    this.autoUpdateMethod = this.fetchAllData;
 
     // Fetch the initial values.
-    this.fetchRates();
-    this.fetchCount();
+    this.fetchAllData();
   },
   methods: {
+    // Combined method for scheduler - fetches both rates and count
+    fetchAllData: async function () {
+      this.fetchRates();
+      this.fetchCount();
+    },
     // Perform two calls to the XML-RPC service and fetch download
     // and upload rates. Values are saved to the `ul` and `dl`
     // properties.
@@ -105,8 +96,8 @@ export default {
       return this.getXml(methodName).then((xml) =>
         parseInt(
           xml.getElementsByTagName("value")[0].firstChild.textContent,
-          10
-        )
+          10,
+        ),
       );
     },
     // Fetch the numer of torrents by requesting the download list
@@ -125,9 +116,8 @@ export default {
       const headers = { "Content-Type": "text/xml" };
 
       if (this.item.username && this.item.password) {
-        headers[
-          "Authorization"
-        ] = `${this.item.username}:${this.item.password}`;
+        headers["Authorization"] =
+          `${this.item.username}:${this.item.password}`;
       }
 
       return fetch(`${this.item.xmlrpc.replace(/\/$/, "")}/RPC2`, {
@@ -143,7 +133,7 @@ export default {
           return response.text();
         })
         .then((text) =>
-          Promise.resolve(new DOMParser().parseFromString(text, "text/xml"))
+          Promise.resolve(new DOMParser().parseFromString(text, "text/xml")),
         );
     },
   },
