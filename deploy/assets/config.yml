@@ -1,0 +1,99 @@
+---
+# Configuration du dashboard, intégrée à l'image au build (voir Dockerfile).
+# Après modification : ./build-and-push.sh puis "Pull and redeploy" sur la stack Portainer.
+# Options : docs/configuration.md, cartes spéciales : docs/customservices.md
+
+title: "My dashboard"
+subtitle: "SepraDC"
+logo: "logo.png"
+
+header: false
+footer: '©2020 <a href="https://github.com/sepradc">SepraDC <i class="fab fa-github-alt"></i></a> // Projet original <a href="https://github.com/bastienwirtz/homer"><i class="fab fa-github-alt"></i></a>'
+
+columns: 3
+
+# Les couleurs viennent du thème (src/assets/themes/discord.scss), seul le fond est surchargé
+theme: discord
+colors:
+  dark:
+    # Chemin absolu : un chemin relatif est résolu depuis la feuille CSS (/resources/)
+    background-image: "/assets/tools/cover.jpg"
+
+links:
+  - name: "Youtube"
+    icon: "fab fa-youtube"
+    url: "https://youtube.com/"
+  - name: "GitHub"
+    icon: "fab fa-github"
+    url: "https://github.com/SepraDC"
+    target: "_blank"
+
+services:
+  - name: "Applications"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Prelevements"
+        logo: "assets/tools/money.svg"
+        subtitle: "Suivi Banquaire"
+        tag: "prel"
+        url: "https://prel.sepradc.ovh/"
+      - name: "Agonos"
+        icon: "fas fa-dice"
+        subtitle: "Ludothèque"
+        tag: "agonos"
+        url: "https://agonos.sepradc.ovh/"
+
+  # Accessibles uniquement depuis le réseau local ou le VPN
+  - name: "Raspberry Pi"
+    icon: "fab fa-raspberry-pi"
+    items:
+      - name: "Portainer"
+        icon: "fas fa-cubes"
+        subtitle: "Gestion des conteneurs"
+        tag: "rpi"
+        url: "https://192.168.1.59:9443"
+        target: "_blank"
+      - name: "Registry"
+        icon: "fab fa-docker"
+        subtitle: "registry.sepradc.ovh"
+        tag: "rpi"
+        url: "http://192.168.1.59:8082"
+        target: "_blank"
+
+  - name: "Bordeaux"
+    icon: "fas fa-map-marker-alt"
+    items:
+      - name: "Pont Chaban"
+        type: "PontChaban"
+        icon: "fas fa-ship"
+        rows: 6
+        url: "https://www.bordeaux.fr/p84227/pont-chaban-delmas"
+        target: "_blank"
+
+  - name: "Outils"
+    icon: "fab fa-google"
+    items:
+      - name: "Drive"
+        logo: "assets/tools/google-drive.svg"
+        subtitle: "Voir mon Drive"
+        tag: "google#drive"
+        url: "https://drive.google.com/drive/my-drive"
+        target: "_blank"
+      - name: "Google Photos"
+        logo: "assets/tools/photos.svg"
+        subtitle: "Voir mes photos"
+        tag: "google#photos"
+        url: "https://photos.google.com/"
+      - name: "Gmail"
+        logo: "assets/tools/gmail.svg"
+        subtitle: "Voir ma boîte mail"
+        tag: "google#mail"
+        url: "https://mail.google.com/"
+
+  # - name: "Minecraft"
+  #   icon: "fas fa-cube"
+  #   items:
+  #     - name: "Serveur"
+  #       type: "MinecraftServer"
+  #       icon: "fas fa-cube"
+  #       hostname: "mc.example.com"

@@ -34,6 +34,7 @@ Available services are located in `src/components/`:
 - [Matrix](#matrix)
 - [Mealie](#mealie)
 - [Medusa](#medusa)
+- [Minecraft Server](#minecraft-server)
 - [Miniflux](#miniflux)
 - [NetAlertx](#netalertx)
 - [Nextcloud](#nextcloud)
@@ -46,6 +47,7 @@ Available services are located in `src/components/`:
 - [PiAlert](#pialert)
 - [PiHole](#pihole)
 - [Ping](#ping)
+- [Pont Chaban](#pont-chaban)
 - [Plex](#plex)
 - [Portainer](#portainer)
 - [Prometheus](#prometheus)
@@ -447,6 +449,21 @@ The url must be the root url of Medusa application.
 
 **API Key**: The Medusa API key can be found in General configuration > Interface. It is needed to access Medusa API.
 
+## Minecraft Server
+
+Displays the status, MOTD and connected players of a Minecraft server, using the public [mcsrvstat.us](https://mcsrvstat.us) API.
+
+```yaml
+- name: "Minecraft"
+  type: "MinecraftServer"
+  logo: "assets/tools/sample.png"
+  hostname: "mc.example.com" # or "mc.example.com:25566" for a custom port
+  url: https://my-service.url # optional link
+  # endpoint: "https://api.mcsrvstat.us/3" # Optional, any API answering the same format
+```
+
+Auto refresh is supported by this integration.
+
 ## Miniflux
 
 Displays the number of unread articles from your Miniflux RSS reader.
@@ -646,6 +663,18 @@ Optionally, use `successCodes` to define which HTTP response status codes should
 ```
 
 Auto refresh is supported by this integration.
+
+## Pont Chaban
+
+Displays the next closures of the Chaban-Delmas bridge in Bordeaux, from the Bordeaux Métropole open data.
+
+```yaml
+- name: "Pont Chaban"
+  type: "PontChaban"
+  icon: "fas fa-ship"
+  rows: 3 # Optional, number of closures to display (default: 3)
+  url: https://www.bordeaux.fr/p84227/pont-chaban-delmas
+```
 
 ## Plex
 

@@ -1,0 +1,53 @@
+/*
+ * Discord theme
+ * Author: @sepradc
+ */
+
+// Theme colors
+.theme-discord.light {
+  --highlight-primary: #5865f2;
+  --highlight-secondary: #4752c4;
+  --highlight-hover: #7289da;
+  --background: #f2f3f5;
+  --card-background: #ffffff;
+  --text: #2e3338;
+  --text-header: #ffffff;
+  --text-title: #060607;
+  --text-subtitle: #4f5660;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --link: #0068e0;
+  --link-hover: #4752c4;
+  --background-image: none;
+  --highlight-variant-inverted: #2e3338;
+}
+
+.theme-discord.dark {
+  --highlight-primary: #2f3136;
+  --highlight-secondary: #40444b;
+  --highlight-hover: #7289da;
+  --background: #36393f;
+  --card-background: #202225;
+  --text: #eaeaea;
+  --text-header: #ffffff;
+  --text-title: #fafafa;
+  --text-subtitle: #b9bbbe;
+  --card-shadow: rgba(0, 0, 0, 0.4);
+  --link: #00aff4;
+  --link-hover: #7289da;
+  --background-image: none;
+  --highlight-variant-inverted: #f5f5f5;
+}
+
+.theme-discord {
+  .message-header {
+    background-color: var(--highlight-primary);
+  }
+
+  .tag {
+    background-color: var(--highlight-hover);
+  }
+
+  strong {
+    color: var(--text-title);
+  }
+}

@@ -6,11 +6,14 @@
         {{ message.title }}
       </p>
     </div>
-    <div
-      v-if="message.content"
-      class="message-body"
-      v-html="message.content"
-    ></div>
+    <div v-if="message.content" class="message-body">
+      <div v-html="message.content"></div>
+      <p
+        v-if="message.author"
+        class="is-italic has-text-right"
+        v-html="message.author"
+      ></p>
+    </div>
   </article>
 </template>
 
@@ -53,7 +56,7 @@ export default {
 
         // keep the original config value if no value is provided by the endpoint
         const message = this.message;
-        for (const prop of ["title", "style", "content", "icon"]) {
+        for (const prop of ["title", "style", "content", "icon", "author"]) {
           if (prop in fetchedMessage && fetchedMessage[prop] !== null) {
             message[prop] = fetchedMessage[prop];
           }

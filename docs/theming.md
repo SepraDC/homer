@@ -5,7 +5,7 @@
 The default theme can be changed using the yaml configuration file
 
 ```yaml
-theme: default # 'default', 'walkxcode', or 'neon' see files in 'src/assets/themes'.
+theme: default # 'default', 'walkxcode', 'neon' or 'discord' see files in 'src/assets/themes'.
 ```
 
 ## Favicon

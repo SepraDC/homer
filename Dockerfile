@@ -47,6 +47,8 @@ COPY lighttpd-ipv6.sh /etc/lighttpd/ipv6.sh
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
+# SepraDC fork: dashboard config baked in, no volume needed in the Portainer stack
+COPY --chown=${UID}:${GID} deploy/assets/ /www/assets/
 
 USER ${UID}:${GID}
 
